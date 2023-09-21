@@ -8,8 +8,33 @@ class QuizScreenWidget extends StatefulWidget {
 }
 
 class _QuizScreenWidgetState extends State<QuizScreenWidget> {
+  final nameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter you name and press "Start quiz"',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('Start quiz'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
