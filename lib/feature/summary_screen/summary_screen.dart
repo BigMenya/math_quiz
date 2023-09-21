@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
 
-class SummaryScreenWidget extends StatefulWidget {
-  const SummaryScreenWidget({super.key});
+class SummaryScreenWidget extends StatelessWidget {
+  const SummaryScreenWidget({super.key, required this.score});
 
-  @override
-  State<SummaryScreenWidget> createState() => _SummaryScreenWidgetState();
-}
+  final int score;
 
-class _SummaryScreenWidgetState extends State<SummaryScreenWidget> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Quiz Result'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Your Score:',
+              style: TextStyle(fontSize: 24),
+            ),
+            SizedBox(height: 16),
+            Text(
+              '$score',
+              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

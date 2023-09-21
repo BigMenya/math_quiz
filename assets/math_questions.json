@@ -1,106 +1,236 @@
 [
   {
     "question": "How do you express 3/4 as a decimal?",
-    "A": ".25",
-    "B": ".50",
-    "C": ".75",
-    "D": ".90",
-    "answer": "C"
+    "options": [
+      {
+        "A": ".25"
+      },
+      {
+        "B": ".50"
+      },
+      {
+        "C": ".75"
+      },
+      {
+        "D": ".90"
+      }
+    ],
+    "correctAnswer": "C"
   },
   {
     "question": "In computer terminology, what does the acronym 'FTP' stand for?",
-    "A": "file transfer protocol",
-    "B": "full time portal",
-    "C": "full text processor",
-    "D": "free to print",
-    "answer": "A"
+    "options": [
+      {
+        "A": "file transfer protocol"
+      },
+      {
+        "B": "full time portal"
+      },
+      {
+        "C": "full text processor"
+      },
+      {
+        "D": "free to print"
+      }
+    ],
+    "correctAnswer": "A"
   },
   {
     "question": "In computer terminology, what does the acronym 'ISP' stand for?",
-    "A": "Individual Site Privacy",
-    "B": "Investment Stability Plan",
-    "C": "Internal Security Position",
-    "D": "Internet Service Provider",
-    "answer": "D"
+    "options": [
+      {
+        "A": "Individual Site Privacy"
+      },
+      {
+        "B": "Investment Stability Plan"
+      },
+      {
+        "C": "Internal Security Position"
+      },
+      {
+        "D": "Internet Service Provider"
+      }
+    ],
+    "correctAnswer": "D"
   },
   {
     "question": "Including the bottom, how many sides are on a square-based pyramid?",
-    "A": "three",
-    "B": "four",
-    "C": "five",
-    "D": "six",
-    "answer": "C"
+    "options": [
+      {
+        "A": "three"
+      },
+      {
+        "B": "four"
+      },
+      {
+        "C": "five"
+      },
+      {
+        "D": "six"
+      }
+    ],
+    "correctAnswer": "C"
   },
   {
     "question": "121 Divided by 11 is",
-    "A": "11",
-    "B": "10",
-    "C": "19",
-    "D": "18",
-    "answer": "A"
+    "options": [
+      {
+        "A": "11"
+      },
+      {
+        "B": "10"
+      },
+      {
+        "C": "19"
+      },
+      {
+        "D": "18"
+      }
+    ],
+    "correctAnswer": "A"
   },
   {
     "question": "60 Times of 8 Equals to",
-    "A": "480",
-    "B": "300",
-    "C": "250",
-    "D": "400",
-    "answer": "A"
+    "options": [
+      {
+        "A": "480"
+      },
+      {
+        "B": "300"
+      },
+      {
+        "C": "250"
+      },
+      {
+        "D": "400"
+      }
+    ],
+    "correctAnswer": "A"
   },
   {
     "question": "Find the Missing Term in Multiples of 6 : 6, 12, 18, 24, _, 36, 42, _ 54, 60",
-    "A": "32, 45",
-    "B": "30, 48",
-    "C": "24, 40",
-    "D": "25, 49",
-    "answer": "B"
+    "options": [
+      {
+        "A": "32, 45"
+      },
+      {
+        "B": "30, 48"
+      },
+      {
+        "C": "24, 40"
+      },
+      {
+        "D": "25, 49"
+      }
+    ],
+    "correctAnswer": "B"
   },
   {
     "question": "What is the Next Prime Number after 7 ?",
-    "A": "13",
-    "B": "12",
-    "C": "14",
-    "D": "11",
-    "answer": "D"
+    "options": [
+      {
+        "A": "13"
+      },
+      {
+        "B": "12"
+      },
+      {
+        "C": "14"
+      },
+      {
+        "D": "11"
+      }
+    ],
+    "correctAnswer": "D"
   },
   {
     "question": "The Product of 131 × 0 × 300 × 4",
-    "A": "11",
-    "B": "0",
-    "C": "46",
-    "D": "45",
-    "answer": "B"
+    "options": [
+      {
+        "A": "11"
+      },
+      {
+        "B": "0"
+      },
+      {
+        "C": "46"
+      },
+      {
+        "D": "45"
+      }
+    ],
+    "correctAnswer": "B"
   },
   {
     "question": "3 + 6 × ( 5 + 4) ÷ 3 - 7",
-    "A": "11",
-    "B": "16",
-    "C": "14",
-    "D": "15",
-    "answer": "C"
+    "options": [
+      {
+        "A": "11"
+      },
+      {
+        "B": "16"
+      },
+      {
+        "C": "14"
+      },
+      {
+        "D": "15"
+      }
+    ],
+    "correctAnswer": "C"
   },
   {
     "question": "Solve 23 + 3 ÷ 3",
-    "A": "24",
-    "B": "25",
-    "C": "26",
-    "D": "27",
-    "answer": "A"
+    "options": [
+      {
+        "A": "24"
+      },
+      {
+        "B": "25"
+      },
+      {
+        "C": "26"
+      },
+      {
+        "D": "27"
+      }
+    ],
+    "correctAnswer": "A"
   },
   {
     "question": "How Many Years are there in a Decade?",
-    "A": "5",
-    "B": "10",
-    "C": "15",
-    "D": "12",
-    "answer": "B"
+    "options": [
+      {
+        "A": "5"
+      },
+      {
+        "B": "10"
+      },
+      {
+        "C": "15"
+      },
+      {
+        "D": "12"
+      }
+    ],
+    "correctAnswer": "B"
   },
   {
     "question": "Including the bottom, how many sides are on a square-based pyramid?",
-    "A": "three",
-    "B": "four",
-    "C": "five",
-    "D": "six",
-    "answer": "C"
+    "options": [
+      {
+        "A": "three"
+      },
+      {
+        "B": "four"
+      },
+      {
+        "C": "five"
+      },
+      {
+        "D": "six"
+      }
+    ],
+    "correctAnswer": "C"
   }
 ]

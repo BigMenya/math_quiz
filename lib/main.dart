@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
       routes: {
         Constants.welcomeRoute: (_) => const WelcomeScreenWidget(),
         Constants.quizScreenRoute: (_) => const QuizScreenWidget(),
-        Constants.summaryRoute: (_) => const SummaryScreenWidget(),
       },
     );
   }
