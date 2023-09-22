@@ -2,19 +2,38 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:math_quiz/feature/summary_screen/summary_screen.dart';
+import 'package:math_quiz/models/quiz_screen_state.dart';
 
 import '../../../models/question_model.dart';
 
-class QuizScreenBloc {
-  final StreamController<List<QuizQuestionModel>> _questionsController =
-      StreamController<List<QuizQuestionModel>>();
+abstract class QuizScreenBloc {
+  Future<void> loadQuestions(BuildContext context);
 
-  Stream<List<QuizQuestionModel>> get questionsStream =>
-      _questionsController.stream;
+  void handleAnswer(String selectedAnswer, BuildContext context);
+
+  Stream<QuizScreenState> get questionsStream;
+
+  int get currentQuestionIndex;
+
+  int get score;
+
+  Future<void> onStartQuizPressed(bool nameAccepted);
+
+  void dispose();
+}
+
+class QuizScreenBlocImpl implements QuizScreenBloc {
+  final StreamController<QuizScreenState> _questionsController =
+      StreamController<QuizScreenState>();
+  final _quizScreenState = QuizScreenState();
 
   List<QuizQuestionModel> _questions = [];
   int _currentQuestionIndex = 0;
 
+  @override
+  Stream<QuizScreenState> get questionsStream => _questionsController.stream;
+
+  @override
   Future<void> loadQuestions(BuildContext context) async {
     try {
       final quizData = await DefaultAssetBundle.of(context)
@@ -25,35 +44,33 @@ class QuizScreenBloc {
 
       _questions = questions;
       _currentQuestionIndex = 0;
-
-      _questionsController.add(_questions);
     } catch (e) {
-      // Handle error loading questions
       print('Error loading questions: $e');
     }
   }
 
+  @override
   int get currentQuestionIndex => _currentQuestionIndex;
 
   int _score = 0;
 
+  @override
   int get score => _score;
 
+  @override
   void handleAnswer(String selectedAnswer, BuildContext context) {
-
-
     final currentQuestion = _questions[_currentQuestionIndex];
     final correctAnswer = currentQuestion.correctAnswer;
 
     if (selectedAnswer == correctAnswer) {
-      _score++; // Увеличиваем счетчик очков при правильном ответе
+      _score++;
     }
 
     if (_currentQuestionIndex < _questions.length - 1) {
       _currentQuestionIndex++;
-      _questionsController.add(_questions);
+      _questionsController
+          .add(_quizScreenState.copyWith(questionsList: _questions));
     } else {
-      // Все вопросы пройдены, переходим на экран результатов
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -63,6 +80,14 @@ class QuizScreenBloc {
     }
   }
 
+  @override
+  Future<void> onStartQuizPressed(bool nameAccepted) async {
+    _questionsController.add(_quizScreenState.copyWith(
+        nameAccepted: nameAccepted,
+        questionsList: nameAccepted ? _questions : null));
+  }
+
+  @override
   void dispose() {
     _questionsController.close();
   }

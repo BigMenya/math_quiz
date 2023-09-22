@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:math_quiz/feature/quiz_screen/quiz_screen.dart';
-import 'package:math_quiz/feature/summary_screen/summary_screen.dart';
 
 import 'constants/constants.dart';
 import 'feature/welcome_screen/welcome_screen_widget.dart';
