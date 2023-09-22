@@ -45,15 +45,11 @@ class _QuizScreenWidgetState extends State<QuizScreenWidget> {
 
           return QuizQuestionWidget(
               question: currentQuestion,
-              onAnswerSelected: (answer) {
+              onAnswerSelected: (answer) async {
+                await widget.bloc.handleAnswer(answer);
                 if (widget.bloc.isLastQuestion) {
-                  Navigator.pushNamed(
-                    context,
-                    Constants.summaryRoute,
-                    arguments: widget.bloc.score,
-                  );
-                } else {
-                  widget.bloc.handleAnswer(answer, context);
+                  await widget.bloc.saveScore();
+                  pushNextScreen();
                 }
               });
         },
@@ -62,7 +58,8 @@ class _QuizScreenWidgetState extends State<QuizScreenWidget> {
   }
 
   void pushNextScreen() {
-    Navigator.pushNamed(context, Constants.summaryRoute);
+    Navigator.pushNamed(context, Constants.summaryRoute,
+        arguments: widget.bloc.score);
   }
 
   @override

@@ -10,7 +10,7 @@ import '../../../models/question_model.dart';
 abstract class QuizScreenBloc {
   Future<void> init(BuildContext context);
 
-  void handleAnswer(String selectedAnswer, BuildContext context);
+  Future<void> handleAnswer(String selectedAnswer);
 
   Stream<QuizScreenState> get questionsStream;
 
@@ -21,6 +21,8 @@ abstract class QuizScreenBloc {
   bool get isLastQuestion;
 
   Future<void> onStartQuizPressed(String name);
+
+  Future<void> saveScore();
 
   void dispose();
 }
@@ -39,7 +41,9 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
   // states related
   List<QuizQuestionModel> _questions = [];
   int _currentQuestionIndex = 0;
+  bool _isLastQuestion = false;
   int _score = 0;
+  String? _userName;
 
   @override
   Stream<QuizScreenState> get questionsStream => _questionsController.stream;
@@ -47,7 +51,6 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
   @override
   Future<void> init(BuildContext context) async {
     _questions = await _questionProvider.loadQuestions(context);
-    _bestScoresRepository.loadBestScoresList();
   }
 
   @override
@@ -57,7 +60,7 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
   int get score => _score;
 
   @override
-  Future<void> handleAnswer(String selectedAnswer, BuildContext context) async {
+  Future<void> handleAnswer(String selectedAnswer) async {
     final currentQuestion = _questions[_currentQuestionIndex];
     final correctAnswer = currentQuestion.correctAnswer;
 
@@ -70,9 +73,7 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
       _questionsController
           .add(_quizScreenState.copyWith(questionsList: _questions));
     } else {
-      final state = await _questionsController.stream.last;
-      await _bestScoresRepository
-          .saveBestScoresList(BestScoresModel(state.name ?? '', _score));
+      _isLastQuestion = true;
     }
   }
 
@@ -82,6 +83,7 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
       name: name,
       questionsList: name.isNotEmpty ? _questions : null,
     ));
+    _userName = name;
   }
 
   @override
@@ -90,5 +92,11 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
   }
 
   @override
-  bool get isLastQuestion => !(_currentQuestionIndex < _questions.length - 1);
+  bool get isLastQuestion => _isLastQuestion;
+
+  @override
+  Future<void> saveScore() async {
+    await _bestScoresRepository
+        .saveBestScoresList(BestScoresModel(_userName ?? '', _score));
+  }
 }
