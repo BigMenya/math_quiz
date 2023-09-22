@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:math_quiz/data/provider/questions_provider.dart';
 import 'package:math_quiz/data/repository/best_scores_repository.dart';
 import 'package:math_quiz/feature/summary_screen/summary_screen.dart';
+import 'package:math_quiz/models/best_scores_model.dart';
 import 'package:math_quiz/models/quiz_screen_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/question_model.dart';
+import '../../summary_screen/bloc/summary_screen_bloc.dart';
 
 abstract class QuizScreenBloc {
   Future<void> init(BuildContext context);
@@ -19,7 +21,7 @@ abstract class QuizScreenBloc {
 
   int get score;
 
-  Future<void> onStartQuizPressed(bool nameAccepted);
+  Future<void> onStartQuizPressed(String name);
 
   void dispose();
 }
@@ -45,6 +47,7 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
     _questions = await _questionProvider.loadQuestions(context);
     _bestScoresRepository =
         BestScoresRepositoryImpl(await SharedPreferences.getInstance());
+    _bestScoresRepository.loadBestScoresList();
   }
 
   @override
@@ -54,7 +57,7 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
   int get score => _score;
 
   @override
-  void handleAnswer(String selectedAnswer, BuildContext context) {
+  Future<void> handleAnswer(String selectedAnswer, BuildContext context) async {
     final currentQuestion = _questions[_currentQuestionIndex];
     final correctAnswer = currentQuestion.correctAnswer;
 
@@ -67,20 +70,27 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
       _questionsController
           .add(_quizScreenState.copyWith(questionsList: _questions));
     } else {
+      final state = await _questionsController.stream.last;
+      await _bestScoresRepository
+          .saveBestScoresList(BestScoresModel(state.name ?? '', _score));
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => SummaryScreenWidget(score: _score),
+          builder: (BuildContext context) => SummaryScreenWidget(
+            score: _score,
+            bloc: SummaryScreenBlocImpl(),
+          ),
         ),
       );
     }
   }
 
   @override
-  Future<void> onStartQuizPressed(bool nameAccepted) async {
+  Future<void> onStartQuizPressed(String name) async {
     _questionsController.add(_quizScreenState.copyWith(
-        nameAccepted: nameAccepted,
-        questionsList: nameAccepted ? _questions : null));
+      name: name,
+      questionsList: name.isNotEmpty ? _questions : null,
+    ));
   }
 
   @override

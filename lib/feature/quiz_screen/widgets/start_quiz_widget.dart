@@ -5,11 +5,11 @@ class StartQuizWidget extends StatefulWidget {
   const StartQuizWidget({
     super.key,
     required this.bloc,
-    required this.nameAccepted,
+    required this.nameCorrect,
   });
 
   final QuizScreenBloc bloc;
-  final bool nameAccepted;
+  final bool nameCorrect;
 
   @override
   State<StartQuizWidget> createState() => _StartQuizWidgetState();
@@ -23,7 +23,7 @@ class _StartQuizWidgetState extends State<StartQuizWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (!widget.nameAccepted)
+        if (!widget.nameCorrect)
           const Text(
             'Please insert at least one character',
             style: TextStyle(color: Colors.red),
@@ -40,7 +40,7 @@ class _StartQuizWidgetState extends State<StartQuizWidget> {
         ),
         ElevatedButton(
           onPressed: () =>
-              widget.bloc.onStartQuizPressed(nameController.text.isNotEmpty),
+              widget.bloc.onStartQuizPressed(nameController.text),
           child: const Text('Start quiz'),
         ),
       ],

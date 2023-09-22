@@ -72,42 +72,6 @@
     "correctAnswer": "C"
   },
   {
-    "question": "121 Divided by 11 is",
-    "options": [
-      {
-        "A": "11"
-      },
-      {
-        "B": "10"
-      },
-      {
-        "C": "19"
-      },
-      {
-        "D": "18"
-      }
-    ],
-    "correctAnswer": "A"
-  },
-  {
-    "question": "60 Times of 8 Equals to",
-    "options": [
-      {
-        "A": "480"
-      },
-      {
-        "B": "300"
-      },
-      {
-        "C": "250"
-      },
-      {
-        "D": "400"
-      }
-    ],
-    "correctAnswer": "A"
-  },
-  {
     "question": "Find the Missing Term in Multiples of 6 : 6, 12, 18, 24, _, 36, 42, _ 54, 60",
     "options": [
       {
@@ -196,24 +160,6 @@
       }
     ],
     "correctAnswer": "A"
-  },
-  {
-    "question": "How Many Years are there in a Decade?",
-    "options": [
-      {
-        "A": "5"
-      },
-      {
-        "B": "10"
-      },
-      {
-        "C": "15"
-      },
-      {
-        "D": "12"
-      }
-    ],
-    "correctAnswer": "B"
   },
   {
     "question": "Including the bottom, how many sides are on a square-based pyramid?",

@@ -1,21 +1,31 @@
 import 'package:math_quiz/models/question_model.dart';
 
+enum NavigationState {
+  startQuiz,
+  questionAnswer,
+  summary,
+}
+
 class QuizScreenState {
   QuizScreenState({
     this.questionsList,
-    this.nameAccepted,
+    this.name,
+    this.navigationState,
   });
 
   final List<QuizQuestionModel>? questionsList;
-  final bool? nameAccepted;
+  final String? name;
+  final NavigationState? navigationState;
 
   QuizScreenState copyWith({
     List<QuizQuestionModel>? questionsList,
-    bool? nameAccepted,
+    String? name,
+    NavigationState? navigationState,
   }) {
     return QuizScreenState(
       questionsList: questionsList ?? this.questionsList,
-      nameAccepted: nameAccepted ?? this.nameAccepted,
+      name: name ?? this.name,
+      navigationState: navigationState ?? this.navigationState,
     );
   }
 }
