@@ -36,7 +36,7 @@ class _QuizScreenWidgetState extends State<QuizScreenWidget> {
           if (snapshot.data?.questionsList == null) {
             return StartQuizWidget(
               bloc: widget.bloc,
-              nameCorrect: snapshot.data?.name?.isNotEmpty ?? false,
+              nameCorrect: snapshot.data?.name?.isNotEmpty ?? true,
             );
           }
 

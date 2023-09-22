@@ -10,12 +10,23 @@ class TopScoresWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: bestScoresList.length,
       itemBuilder: (context, index) {
         final player = bestScoresList[index];
-        return ListTile(
-          title: Text(player.name),
-          subtitle: Text('Score: ${player.score.toString()}'),
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              player.name,
+              style: const TextStyle(fontSize: 24),
+            ),
+            const SizedBox(width: 32),
+            Text(
+              'Score: ${player.score.toString()}',
+              style: const TextStyle(fontSize: 24),
+            ),
+          ],
         );
       },
     );
