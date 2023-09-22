@@ -14,6 +14,8 @@ abstract class QuizScreenBloc {
 
   Stream<QuizScreenState> get questionsStream;
 
+  Stream<double> get progressStream;
+
   int get currentQuestionIndex;
 
   int get score;
@@ -34,6 +36,8 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
   // controllers
   final StreamController<QuizScreenState> _questionsController =
       StreamController<QuizScreenState>.broadcast();
+  final StreamController<double> _progressController =
+  StreamController<double>.broadcast();
   final _quizScreenState = QuizScreenState();
   final QuestionProvider _questionProvider = QuestionProviderImpl();
   final BestScoresRepository _bestScoresRepository;
@@ -72,6 +76,7 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
       _currentQuestionIndex++;
       _questionsController
           .add(_quizScreenState.copyWith(questionsList: _questions));
+      _progressController.add(_currentQuestionIndex / 10);
     } else {
       _isLastQuestion = true;
     }
@@ -99,4 +104,7 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
     await _bestScoresRepository
         .saveBestScoresList(BestScoresModel(_userName ?? '', _score));
   }
+
+  @override
+  Stream<double> get progressStream => _progressController.stream;
 }

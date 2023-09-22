@@ -7,16 +7,26 @@ class QuizQuestionWidget extends StatelessWidget {
     super.key,
     required this.question,
     required this.onAnswerSelected,
+    required this.progressStream,
   });
 
   final QuizQuestionModel question;
   final Function(String) onAnswerSelected;
+  final Stream<double> progressStream;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: StreamBuilder<double>(
+              stream: progressStream,
+              builder: (context, snapshot) {
+                return LinearProgressIndicator(value: snapshot.data ?? 0.0);
+              }),
+        ),
         Align(
           alignment: Alignment.center,
           child: Text(
@@ -39,7 +49,10 @@ class QuizQuestionWidget extends StatelessWidget {
                   onPressed: () {
                     onAnswerSelected(optionKey);
                   },
-                  child: Text(optionText, textAlign: TextAlign.center,),
+                  child: Text(
+                    optionText,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             );

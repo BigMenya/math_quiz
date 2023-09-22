@@ -14,19 +14,25 @@ class TopScoresWidget extends StatelessWidget {
       itemCount: bestScoresList.length,
       itemBuilder: (context, index) {
         final player = bestScoresList[index];
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              player.name,
-              style: const TextStyle(fontSize: 24),
-            ),
-            const SizedBox(width: 32),
-            Text(
-              'Score: ${player.score.toString()}',
-              style: const TextStyle(fontSize: 24),
-            ),
-          ],
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  player.name,
+                  style: const TextStyle(fontSize: 24),
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'Score: ${player.score.toString()}',
+                  style: const TextStyle(fontSize: 24),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

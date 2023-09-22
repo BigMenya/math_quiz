@@ -31,6 +31,7 @@ class _StartQuizWidgetState extends State<StartQuizWidget> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: TextField(
+            maxLength: 5,
             controller: nameController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),

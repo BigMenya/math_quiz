@@ -19,8 +19,6 @@ class QuizScreenWidget extends StatefulWidget {
 }
 
 class _QuizScreenWidgetState extends State<QuizScreenWidget> {
-  final nameController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -29,26 +27,28 @@ class _QuizScreenWidgetState extends State<QuizScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = widget.bloc;
     return Scaffold(
       body: StreamBuilder<QuizScreenState>(
-        stream: widget.bloc.questionsStream,
+        stream: bloc.questionsStream,
         builder: (context, snapshot) {
           if (snapshot.data?.questionsList == null) {
             return StartQuizWidget(
-              bloc: widget.bloc,
+              bloc: bloc,
               nameCorrect: snapshot.data?.name?.isNotEmpty ?? true,
             );
           }
 
           final currentQuestion =
-              snapshot.data!.questionsList![widget.bloc.currentQuestionIndex];
+              snapshot.data!.questionsList![bloc.currentQuestionIndex];
 
           return QuizQuestionWidget(
               question: currentQuestion,
+              progressStream: bloc.progressStream,
               onAnswerSelected: (answer) async {
-                await widget.bloc.handleAnswer(answer);
-                if (widget.bloc.isLastQuestion) {
-                  await widget.bloc.saveScore();
+                await bloc.handleAnswer(answer);
+                if (bloc.isLastQuestion) {
+                  await bloc.saveScore();
                   pushNextScreen();
                 }
               });
