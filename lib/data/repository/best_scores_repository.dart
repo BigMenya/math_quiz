@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/best_scores_model.dart';
+import '../../models/best_scores_model.dart';
 
 abstract class BestScoresListRepository {
   List<BestScoresModel> loadBestScoresList();
