@@ -15,7 +15,6 @@ class BestScoresRepositoryImpl implements BestScoresRepository {
   final SharedPreferences _prefs;
   static const String _key = 'bestScoresList';
 
-
   @override
   List<BestScoresModel> loadBestScoresList() {
     final jsonString = _prefs.getString(_key);

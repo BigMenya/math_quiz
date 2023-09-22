@@ -1,31 +1,25 @@
 import 'package:math_quiz/models/question_model.dart';
 
-enum NavigationState {
-  startQuiz,
-  questionAnswer,
-  summary,
-}
-
 class QuizScreenState {
   QuizScreenState({
     this.questionsList,
     this.name,
-    this.navigationState,
+    this.finishQuiz = false,
   });
 
   final List<QuizQuestionModel>? questionsList;
   final String? name;
-  final NavigationState? navigationState;
+  final bool finishQuiz;
 
   QuizScreenState copyWith({
     List<QuizQuestionModel>? questionsList,
     String? name,
-    NavigationState? navigationState,
+    bool? finishQuiz,
   }) {
     return QuizScreenState(
       questionsList: questionsList ?? this.questionsList,
       name: name ?? this.name,
-      navigationState: navigationState ?? this.navigationState,
+      finishQuiz: finishQuiz ?? this.finishQuiz,
     );
   }
 }

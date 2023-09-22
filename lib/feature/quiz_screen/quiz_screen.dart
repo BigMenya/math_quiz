@@ -4,53 +4,70 @@ import 'package:math_quiz/feature/quiz_screen/widgets/quiz_question_widget.dart'
 import 'package:math_quiz/feature/quiz_screen/widgets/start_quiz_widget.dart';
 import 'package:math_quiz/models/quiz_screen_state.dart';
 
+import '../../constants/constants.dart';
 
 class QuizScreenWidget extends StatefulWidget {
-  const QuizScreenWidget({super.key});
+  const QuizScreenWidget({
+    super.key,
+    required this.bloc,
+  });
+
+  final QuizScreenBloc bloc;
 
   @override
   State<QuizScreenWidget> createState() => _QuizScreenWidgetState();
 }
 
 class _QuizScreenWidgetState extends State<QuizScreenWidget> {
-  final QuizScreenBloc _quizScreenBloc = QuizScreenBlocImpl();
   final nameController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _quizScreenBloc.init(context);
+    widget.bloc.init(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<QuizScreenState>(
-        stream: _quizScreenBloc.questionsStream,
+        stream: widget.bloc.questionsStream,
         builder: (context, snapshot) {
           if (snapshot.data?.questionsList == null) {
             return StartQuizWidget(
-              bloc: _quizScreenBloc,
+              bloc: widget.bloc,
               nameCorrect: snapshot.data?.name?.isNotEmpty ?? false,
             );
           }
 
-          final currentQuestion = snapshot
-              .data!.questionsList![_quizScreenBloc.currentQuestionIndex];
+          final currentQuestion =
+              snapshot.data!.questionsList![widget.bloc.currentQuestionIndex];
 
           return QuizQuestionWidget(
-            question: currentQuestion,
-            onAnswerSelected: (answer) =>
-                _quizScreenBloc.handleAnswer(answer, context),
-          );
+              question: currentQuestion,
+              onAnswerSelected: (answer) {
+                if (widget.bloc.isLastQuestion) {
+                  Navigator.pushNamed(
+                    context,
+                    Constants.summaryRoute,
+                    arguments: widget.bloc.score,
+                  );
+                } else {
+                  widget.bloc.handleAnswer(answer, context);
+                }
+              });
         },
       ),
     );
   }
 
+  void pushNextScreen() {
+    Navigator.pushNamed(context, Constants.summaryRoute);
+  }
+
   @override
   void dispose() {
-    _quizScreenBloc.dispose();
+    widget.bloc.dispose();
     super.dispose();
   }
 }

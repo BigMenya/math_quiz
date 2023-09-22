@@ -2,13 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:math_quiz/data/provider/questions_provider.dart';
 import 'package:math_quiz/data/repository/best_scores_repository.dart';
-import 'package:math_quiz/feature/summary_screen/summary_screen.dart';
 import 'package:math_quiz/models/best_scores_model.dart';
 import 'package:math_quiz/models/quiz_screen_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/question_model.dart';
-import '../../summary_screen/bloc/summary_screen_bloc.dart';
 
 abstract class QuizScreenBloc {
   Future<void> init(BuildContext context);
@@ -21,18 +18,23 @@ abstract class QuizScreenBloc {
 
   int get score;
 
+  bool get isLastQuestion;
+
   Future<void> onStartQuizPressed(String name);
 
   void dispose();
 }
 
 class QuizScreenBlocImpl implements QuizScreenBloc {
+  QuizScreenBlocImpl(BestScoresRepository bestScoresRepository)
+      : _bestScoresRepository = bestScoresRepository;
+
   // controllers
   final StreamController<QuizScreenState> _questionsController =
-      StreamController<QuizScreenState>();
+      StreamController<QuizScreenState>.broadcast();
   final _quizScreenState = QuizScreenState();
   final QuestionProvider _questionProvider = QuestionProviderImpl();
-  late final BestScoresRepository _bestScoresRepository;
+  final BestScoresRepository _bestScoresRepository;
 
   // states related
   List<QuizQuestionModel> _questions = [];
@@ -45,8 +47,6 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
   @override
   Future<void> init(BuildContext context) async {
     _questions = await _questionProvider.loadQuestions(context);
-    _bestScoresRepository =
-        BestScoresRepositoryImpl(await SharedPreferences.getInstance());
     _bestScoresRepository.loadBestScoresList();
   }
 
@@ -73,15 +73,6 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
       final state = await _questionsController.stream.last;
       await _bestScoresRepository
           .saveBestScoresList(BestScoresModel(state.name ?? '', _score));
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => SummaryScreenWidget(
-            score: _score,
-            bloc: SummaryScreenBlocImpl(),
-          ),
-        ),
-      );
     }
   }
 
@@ -97,4 +88,7 @@ class QuizScreenBlocImpl implements QuizScreenBloc {
   void dispose() {
     _questionsController.close();
   }
+
+  @override
+  bool get isLastQuestion => !(_currentQuestionIndex < _questions.length - 1);
 }
