@@ -17,19 +17,23 @@ class TopScoresWidget extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Text(
-                  player.name,
-                  style: const TextStyle(fontSize: 24),
-                ),
+              Column(
+                children: [
+                  Text(
+                    player.name,
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                ],
               ),
-              Expanded(
-                child: Text(
-                  'Score: ${player.score.toString()}',
-                  style: const TextStyle(fontSize: 24),
-                ),
+              Column(
+                children: [
+                  Text(
+                    'Score: ${player.score.toString()}',
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                ],
               ),
             ],
           ),
