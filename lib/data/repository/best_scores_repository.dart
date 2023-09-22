@@ -3,14 +3,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/best_scores_model.dart';
 
-abstract class BestScoresListRepository {
+abstract class BestScoresRepository {
   List<BestScoresModel> loadBestScoresList();
 
   Future<void> saveBestScoresList(BestScoresModel newBestScores);
 }
 
-class BestScoresListRepositoryImpl implements BestScoresListRepository {
-  BestScoresListRepositoryImpl(this._prefs);
+class BestScoresRepositoryImpl implements BestScoresRepository {
+  BestScoresRepositoryImpl(this._prefs);
 
   final SharedPreferences _prefs;
   static const String _key = 'bestScoresList';

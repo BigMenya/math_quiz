@@ -19,7 +19,7 @@ class _QuizScreenWidgetState extends State<QuizScreenWidget> {
   @override
   void initState() {
     super.initState();
-    _quizScreenBloc.loadQuestions(context);
+    _quizScreenBloc.init(context);
   }
 
   @override

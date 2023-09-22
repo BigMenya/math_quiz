@@ -1,13 +1,15 @@
-import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:math_quiz/data/provider/questions_provider.dart';
+import 'package:math_quiz/data/repository/best_scores_repository.dart';
 import 'package:math_quiz/feature/summary_screen/summary_screen.dart';
 import 'package:math_quiz/models/quiz_screen_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/question_model.dart';
 
 abstract class QuizScreenBloc {
-  Future<void> loadQuestions(BuildContext context);
+  Future<void> init(BuildContext context);
 
   void handleAnswer(String selectedAnswer, BuildContext context);
 
@@ -23,36 +25,30 @@ abstract class QuizScreenBloc {
 }
 
 class QuizScreenBlocImpl implements QuizScreenBloc {
+  // controllers
   final StreamController<QuizScreenState> _questionsController =
       StreamController<QuizScreenState>();
   final _quizScreenState = QuizScreenState();
+  final QuestionProvider _questionProvider = QuestionProviderImpl();
+  late final BestScoresRepository _bestScoresRepository;
 
+  // states related
   List<QuizQuestionModel> _questions = [];
   int _currentQuestionIndex = 0;
+  int _score = 0;
 
   @override
   Stream<QuizScreenState> get questionsStream => _questionsController.stream;
 
   @override
-  Future<void> loadQuestions(BuildContext context) async {
-    try {
-      final quizData = await DefaultAssetBundle.of(context)
-          .loadString('assets/math_questions.json');
-      final List<dynamic> jsonList = json.decode(quizData);
-      final List<QuizQuestionModel> questions =
-          jsonList.map((json) => QuizQuestionModel.fromJson(json)).toList();
-
-      _questions = questions;
-      _currentQuestionIndex = 0;
-    } catch (e) {
-      print('Error loading questions: $e');
-    }
+  Future<void> init(BuildContext context) async {
+    _questions = await _questionProvider.loadQuestions(context);
+    _bestScoresRepository =
+        BestScoresRepositoryImpl(await SharedPreferences.getInstance());
   }
 
   @override
   int get currentQuestionIndex => _currentQuestionIndex;
-
-  int _score = 0;
 
   @override
   int get score => _score;
